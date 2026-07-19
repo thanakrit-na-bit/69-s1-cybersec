@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: 69-s1-db
+    ports:
+      - "54327:5432"
+    environment:
+      - POSTGRES_PASSWORD=wp@010605
+      - POSTGRES_USER=watta
+      - POSTGRES_DB=watta
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
+  admin:
+    image: dpage/pgadmin4:latest
+    container_name: 69-s1-admin
+    ports:
+      - "8081:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=wattanapat-l@rmutp.ac.th
+      - PGADMIN_DEFAULT_PASSWORD=wp@010605
+    depends_on:
+      - db
