@@ -19,7 +19,7 @@ services:
     environment:
       - PGADMIN_DEFAULT_EMAIL=thanakrit@rmutp.ac.th
       - PGADMIN_DEFAULT_PASSWORD=tk@061247
-    volumes:                      # <-- เติมส่วนนี้ใต้ admin
+    volumes:                      
       - ./admin_data:/var/lib/pgadmin
     depends_on:
       - db
