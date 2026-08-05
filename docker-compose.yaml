@@ -7,7 +7,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=tk@061247
       - POSTGRES_USER=thanakrit
-      - POSTGRES_DB=thanakrit
+        - POSTGRES_DB=thanakrit
     volumes:
       - ./data:/var/lib/postgresql/data
   admin:
