@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:16-alpine
-    container_name: 69-s1-db
+    container_name: 69-s2-db
     ports:
       - "54327:5432"
     environment:
@@ -13,7 +13,7 @@ services:
 
   admin:
     image: dpage/pgadmin4:latest
-    container_name: 69-s1-admin
+    container_name: 69-s2-admin
     ports:
       - "8081:80"
     environment:
@@ -21,5 +21,13 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
     volumes:
       - ./admin_data:/var/lib/pgadmin
+    depends_on:
+      - db
+
+  app:
+    image: prawee/strapi
+    container_name: 69-s2-app
+    ports:
+      - "9092:1337"
     depends_on:
       - db
