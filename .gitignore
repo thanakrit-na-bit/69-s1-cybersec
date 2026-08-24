@@ -1,4 +1,8 @@
 ﻿.env
 data/
 admin_data/
+HEAD
 api.http
+
+api.http
+develop
