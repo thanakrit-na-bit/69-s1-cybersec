@@ -1,6 +1,29 @@
 # API
 
-## Login
+## Register / Signup
+POST http://localhost:9091/api/auth/local/register
+Content-Type: application/json
+
+{
+  "username": "",
+  "email": "",
+  "password": ""
+}
+
+###
+
+## Login User
+POST http://localhost:9091/api/auth/local
+Content-Type: application/json
+
+{
+  "identifier": "",
+  "password": ""
+}
+
+###
+
+## Login Admin
 POST http://localhost:9091/admin/login
 Content-Type: application/json
 
@@ -12,28 +35,18 @@ Content-Type: application/json
 
 ###
 
-## Forgot
+## Forgot Password
+POST http://localhost:9091/api/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": ""
+}
+
+###
+
 ## Profile
-## Register / Signup
-
-###
-
-## 1. GET Students
-GET http://localhost:9091/api/students
-
-###
-
-## 2. GET Subjects
-GET http://localhost:9091/api/subjects
-
-###
-
-## 3. GET Teachers
-GET http://localhost:9091/api/teachers
-
-###
-
-## 4. GET Mapping
-GET http://localhost:9091/api/mappings
+GET http://localhost:9091/api/users/me
+Authorization: Bearer <YOUR_JWT_TOKEN>
 
 ###
