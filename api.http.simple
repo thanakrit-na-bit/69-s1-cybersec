@@ -5,11 +5,30 @@ POST http://localhost:9091/admin/login
 Content-Type: application/json
 
 {
-    "email": "",
-    "password": "",
-    "rememberMe": false
+  "email": "",
+  "password": "",
+  "rememberMe": false
 }
+
+###
 
 ## Forgot
 ## Profile
 ## Register / Signup
+
+###
+
+## 1. GET Students
+GET http://localhost:9091/api/students
+
+###
+
+## 2. GET Subjects
+GET http://localhost:9091/api/subjects
+
+###
+
+## 3. GET Teachers
+GET http://localhost:9091/api/teachers
+
+###
