@@ -32,3 +32,8 @@ GET http://localhost:9091/api/subjects
 GET http://localhost:9091/api/teachers
 
 ###
+
+## 4. GET Mapping
+GET http://localhost:9091/api/mappings
+
+###
