@@ -10,8 +10,7 @@ Content-Type: application/json
     "firstname": "",
     "lastname": "",
     "email": "",
-    "password": "",
-    "registrationToken": ""
+    "password": ""
 }
 
 ### 2. Login Admin
@@ -21,7 +20,8 @@ Content-Type: application/json
 
 {
     "email": "",
-    "password": ""
+    "password": "",
+    "rememberMe": false
 }
 
 ### 3. Forgot Password Admin
