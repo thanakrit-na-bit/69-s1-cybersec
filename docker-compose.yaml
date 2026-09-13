@@ -23,7 +23,7 @@ services:
       - ./admin_data:/var/lib/pgadmin
 
   app:
-    image: prawee/strapi
+    build: .
     container_name: 69-s1-app
     ports:
       - ${APP_PORT}:1337
@@ -34,3 +34,11 @@ services:
       - DATABASE_PORT=${DATABASE_PORT}
       - DATABASE_USERNAME=${DATABASE_USERNAME}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - ADMIN_URL=${ADMIN_URL}
+    volumes:
+      - ./strapi/config/plugins.js:/opt/app/config/plugins.js
+      - ./strapi/config/admin.js:/opt/app/config/admin.js
