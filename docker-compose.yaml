@@ -42,3 +42,4 @@ services:
     volumes:
       - ./strapi/config/plugins.js:/opt/app/config/plugins.js
       - ./strapi/config/admin.js:/opt/app/config/admin.js
+      - ./strapi/src/api/student/content-types/student/lifecycles.js:/opt/app/src/api/student/content-types/student/lifecycles.js

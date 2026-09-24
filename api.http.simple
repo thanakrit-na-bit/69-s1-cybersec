@@ -92,3 +92,103 @@ Content-Type: application/json
 // เอา token จาก response ของข้อ 2.1 ไปใส่ใน Authorization
 GET http://localhost:9091/api/users/me
 Authorization: Bearer {{userLogin.response.body.jwt}}
+
+## 3.Content
+// เรียกได้เลยโดยไม่ต้องมี token เพราะเปิด permission ไว้ที่ role public
+// หมายเหตุ: entry ที่สร้างผ่าน API จะ published ทันที ไม่ต้องไปกด Publish ใน admin
+
+### 3.1 Student
+
+### 3.1.1 Create
+// field mobile ระบบจะเก็บเป็น hash (bcrypt) ให้อัตโนมัติ (create + update)
+POST http://localhost:9091/api/students
+Content-Type: application/json
+
+{
+    "data": {
+        "name": "",
+        "mobile": "",
+        "cardId": ""
+    }
+}
+
+### 3.1.2 List All
+GET http://localhost:9091/api/students
+
+### 3.1.3 List with ID
+GET http://localhost:9091/api/students/3
+
+### 3.1.4 Update
+PUT http://localhost:9091/api/students/3
+Content-Type: application/json
+
+{
+    "data": {
+        "name": ""
+    }
+}
+
+### 3.1.5 Delete
+DELETE http://localhost:9091/api/students/2
+
+### 3.2 Subject
+
+### 3.2.1 Create
+POST http://localhost:9091/api/subjects
+Content-Type: application/json
+
+{
+    "data": {
+        "name": ""
+    }
+}
+
+### 3.2.2 List All
+GET http://localhost:9091/api/subjects
+
+### 3.2.3 List with ID
+GET http://localhost:9091/api/subjects/1
+
+### 3.2.4 Update
+PUT http://localhost:9091/api/subjects/1
+Content-Type: application/json
+
+{
+    "data": {
+        "name": ""
+    }
+}
+
+### 3.2.5 Delete
+DELETE http://localhost:9091/api/subjects/1
+
+### 3.3 Teacher
+
+### 3.3.1 Create
+POST http://localhost:9091/api/teachers
+Content-Type: application/json
+
+{
+    "data": {
+        "name": ""
+    }
+}
+
+### 3.3.2 List All
+GET http://localhost:9091/api/teachers
+
+### 3.3.3 List with ID
+GET http://localhost:9091/api/teachers/1
+
+### 3.3.4 Update
+PUT http://localhost:9091/api/teachers/1
+Content-Type: application/json
+
+{
+    "data": {
+        "name": ""
+    }
+}
+
+### 3.3.5 Delete
+DELETE http://localhost:9091/api/teachers/1
