@@ -1,108 +1,126 @@
-# API
+# REST
+
+## Variables
+@base_url = http://localhost:{{$dotenv APP_PORT}}
+@admin_email = {{$dotenv ADMIN_EMAIL}}
+@admin_password = {{$dotenv ADMIN_PASSWORD}}
+@admin_firstname = {{$dotenv ADMIN_FIRSTNAME}}
+@admin_lastname = {{$dotenv ADMIN_LASTNAME}}
+@admin_jwt_token = {{$dotenv ADMIN_JWT_TOKEN}}
+@user_identifier = {{$dotenv USER_IDENTIFIER}}
+@user_username = {{$dotenv USER_USERNAME}}
+@user_email = {{$dotenv USER_EMAIL}}
+@user_password = {{$dotenv USER_PASSWORD}}
+@user_jwt_token = {{$dotenv USER_JWT_TOKEN}}
 
 ## 1.Admin
 
 ### 1.1 Login
-POST http://localhost:9091/admin/login
+POST {{base_url}}/admin/login
 Content-Type: application/json
 
 {
-    "email": "",
-    "password": "",
+    "email": "{{admin_email}}",
+    "password": "{{admin_password}}",
     "rememberMe": false
 }
 
-### 1.2 Signup
-// ใช้ได้เฉพาะตอนที่ยังไม่มี Super Admin (ครั้งแรกหลัง setup เท่านั้น)
-POST http://localhost:9091/admin/register-admin
+### 1.2 Register (admin) one time for first time to create admin account
+POST {{base_url}}/admin/register-admin
 Content-Type: application/json
 
 {
-    "firstname": "",
-    "lastname": "",
-    "email": "",
-    "password": ""
+    "firstname": "{{admin_firstname}}",
+    "lastname": "{{admin_lastname}}",
+    "email": "{{admin_email}}",
+    "password": "{{admin_password}}"
 }
 
 ### 1.3 Forgot Password
-POST http://localhost:9091/admin/forgot-password
+POST {{base_url}}/admin/forgot-password
 Content-Type: application/json
 
 {
-    "email": ""
+    "email": "{{admin_email}}"
 }
 
 ### 1.3.1 Reset Password
 // เอา token (query param ชื่อ code) จากลิงก์ในอีเมลที่ 1.3 ส่งกลับไปใส่ใน field resetPasswordToken
-POST http://localhost:9091/admin/reset-password
+POST {{base_url}}/admin/reset-password
 Content-Type: application/json
 
 {
     "resetPasswordToken": "",
-    "password": ""
+    "password": "{{admin_password}}"
 }
 
 ### 1.4 Profile
-// เอา token จาก response ของข้อ 1.1 ไปใส่ใน Authorization
-GET http://localhost:9091/admin/users/me
-Authorization: Bearer {{adminLogin.response.body.data.token}}
+GET {{base_url}}/admin/users/me
+Authorization: Bearer {{admin_jwt_token}}
 
 ## 2.User
 
 ### 2.1 Login
-POST http://localhost:9091/api/auth/local
+POST {{base_url}}/api/auth/local
 Content-Type: application/json
 
 {
-    "identifier": "",
-    "password": ""
+    "identifier": "{{user_identifier}}",
+    "password": "{{user_password}}"
 }
 
-### 2.2 Signup
-POST http://localhost:9091/api/auth/local/register
+### 2.2 Register
+POST {{base_url}}/api/auth/local/register
 Content-Type: application/json
 
 {
-    "username": "",
-    "email": "",
-    "password": ""
+    "username": "{{user_username}}",
+    "email": "{{user_email}}",
+    "password": "{{user_password}}"
 }
 
 ### 2.3 Forgot Password
-// Strapi จะคืน 500 ถ้ายังไม่ได้ตั้งค่า SMTP สำหรับส่งอีเมล
-POST http://localhost:9091/api/auth/forgot-password
+POST {{base_url}}/api/auth/forgot-password
 Content-Type: application/json
 
 {
-    "email": ""
+    "email": "{{user_email}}"
 }
 
 ### 2.3.1 Reset Password
 // เอา code จากลิงก์ในอีเมลที่ 2.3 ส่งกลับไปใส่ใน field code
-POST http://localhost:9091/api/auth/reset-password
+POST {{base_url}}/api/auth/reset-password
 Content-Type: application/json
 
 {
     "code": "",
-    "password": "",
-    "passwordConfirmation": ""
+    "password": "{{user_password}}",
+    "passwordConfirmation": "{{user_password}}"
 }
 
 ### 2.4 Profile
-// เอา token จาก response ของข้อ 2.1 ไปใส่ใน Authorization
-GET http://localhost:9091/api/users/me
-Authorization: Bearer {{userLogin.response.body.jwt}}
+GET {{base_url}}/api/users/me
+Authorization: Bearer {{user_jwt_token}}
 
 ## 3.Content
-// เรียกได้เลยโดยไม่ต้องมี token เพราะเปิด permission ไว้ที่ role public
+
+// {{user_jwt_token}} อ่านจาก .env (USER_JWT_TOKEN) - ถ้าหมดอายุให้ login ข้อ 2.1 ใหม่แล้วเอา JWT ไปวางใน .env
 // หมายเหตุ: entry ที่สร้างผ่าน API จะ published ทันที ไม่ต้องไปกด Publish ใน admin
 
 ### 3.1 Student
 
-### 3.1.1 Create
-// field mobile ระบบจะเก็บเป็น hash (bcrypt) ให้อัตโนมัติ (create + update)
-POST http://localhost:9091/api/students
+#### 3.1.1 List Students
+GET {{base_url}}/api/students
+Authorization: Bearer {{user_jwt_token}}
+
+#### 3.1.2 List Students with ID
+GET {{base_url}}/api/students/1
+Authorization: Bearer {{user_jwt_token}}
+
+#### 3.1.3 Create Student
+POST {{base_url}}/api/students
 Content-Type: application/json
+Authorization: Bearer {{user_jwt_token}}
 
 {
     "data": {
@@ -112,15 +130,37 @@ Content-Type: application/json
     }
 }
 
-### 3.1.2 List All
-GET http://localhost:9091/api/students
-
-### 3.1.3 List with ID
-GET http://localhost:9091/api/students/3
-
-### 3.1.4 Update
-PUT http://localhost:9091/api/students/3
+#### 3.1.4 Update Student
+PUT {{base_url}}/api/students/1
 Content-Type: application/json
+Authorization: Bearer {{user_jwt_token}}
+
+{
+    "data": {
+        "name": "",
+        "mobile": "",
+        "cardId": ""
+    }
+}
+
+#### 3.1.5 Delete Student
+DELETE {{base_url}}/api/students/1
+Authorization: Bearer {{user_jwt_token}}
+
+### 3.2 Teacher
+
+#### 3.2.1 List Teachers
+GET {{base_url}}/api/teachers
+Authorization: Bearer {{user_jwt_token}}
+
+#### 3.2.2 List Teachers with ID
+GET {{base_url}}/api/teachers/1
+Authorization: Bearer {{user_jwt_token}}
+
+#### 3.2.3 Create Teacher
+POST {{base_url}}/api/teachers
+Content-Type: application/json
+Authorization: Bearer {{user_jwt_token}}
 
 {
     "data": {
@@ -128,14 +168,10 @@ Content-Type: application/json
     }
 }
 
-### 3.1.5 Delete
-DELETE http://localhost:9091/api/students/2
-
-### 3.2 Subject
-
-### 3.2.1 Create
-POST http://localhost:9091/api/subjects
+#### 3.2.4 Update Teacher
+PUT {{base_url}}/api/teachers/1
 Content-Type: application/json
+Authorization: Bearer {{user_jwt_token}}
 
 {
     "data": {
@@ -143,15 +179,24 @@ Content-Type: application/json
     }
 }
 
-### 3.2.2 List All
-GET http://localhost:9091/api/subjects
+#### 3.2.5 Delete Teacher
+DELETE {{base_url}}/api/teachers/1
+Authorization: Bearer {{user_jwt_token}}
 
-### 3.2.3 List with ID
-GET http://localhost:9091/api/subjects/1
+### 3.3 Subject
 
-### 3.2.4 Update
-PUT http://localhost:9091/api/subjects/1
+#### 3.3.1 List Subjects
+GET {{base_url}}/api/subjects
+Authorization: Bearer {{user_jwt_token}}
+
+#### 3.3.2 List Subjects with ID
+GET {{base_url}}/api/subjects/1
+Authorization: Bearer {{user_jwt_token}}
+
+#### 3.3.3 Create Subject
+POST {{base_url}}/api/subjects
 Content-Type: application/json
+Authorization: Bearer {{user_jwt_token}}
 
 {
     "data": {
@@ -159,14 +204,10 @@ Content-Type: application/json
     }
 }
 
-### 3.2.5 Delete
-DELETE http://localhost:9091/api/subjects/1
-
-### 3.3 Teacher
-
-### 3.3.1 Create
-POST http://localhost:9091/api/teachers
+#### 3.3.4 Update Subject
+PUT {{base_url}}/api/subjects/1
 Content-Type: application/json
+Authorization: Bearer {{user_jwt_token}}
 
 {
     "data": {
@@ -174,21 +215,6 @@ Content-Type: application/json
     }
 }
 
-### 3.3.2 List All
-GET http://localhost:9091/api/teachers
-
-### 3.3.3 List with ID
-GET http://localhost:9091/api/teachers/1
-
-### 3.3.4 Update
-PUT http://localhost:9091/api/teachers/1
-Content-Type: application/json
-
-{
-    "data": {
-        "name": ""
-    }
-}
-
-### 3.3.5 Delete
-DELETE http://localhost:9091/api/teachers/1
+#### 3.3.5 Delete Subject
+DELETE {{base_url}}/api/subjects/1
+Authorization: Bearer {{user_jwt_token}}
